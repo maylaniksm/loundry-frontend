@@ -1,24 +1,23 @@
 import { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 
 export default function useAuth() {
-  let history = useHistory();
+  const navigate = useNavigate()
   const { setUser } = useContext(UserContext);
   const [error, setError] = useState(null);
 
   //set user
   const setUserContext = async () => {
     return await axios
-      .get("/me")
+      .get("auth/me")
       .then((res) => {
-        console.log(res.data);
-        setUser(res.data);
-        history.push("/home");
+        setUser(res.data.user);
+        navigate.push("/home");
       })
       .catch((err) => {
-        setError(err.response.data);
+        setError(err.response);
       });
   };
 
@@ -50,9 +49,9 @@ export default function useAuth() {
         password,
       })
       .then(async (res) => {
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("token", "Bearer "+res.data.token);
         axios.interceptors.request.use(function (config) {
-          const token = store.getState().session.token;
+          const token = localStorage.getItem("token");
           config.headers.Authorization = token;
           return config;
         });

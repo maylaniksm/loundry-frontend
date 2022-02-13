@@ -5,17 +5,28 @@ import { UserContext } from '../hooks/UserContext';
 import useLogout from './../hooks/useLogout';
 
 export default function Header() {
-    const { user } = useContext(UserContext);
-    const { logoutUser } = useLogout(); 
+    // const { user } = useContext(UserContext);
+    // const { logoutUser } = useLogout(); 
     
     return(
+        // <header>
+        //     {user 
+        //     ? <>
+        //         Hello, {user.nama}.
+        //         <InlineButton name={'logout'} handleClick={logoutUser} />
+        //     </>
+        //    : <div className='btnGroup'>
+        //         <Link to = "/login"> 
+        //             <InlineButton name={"login"}/>
+        //         </Link>
+        //         <Link to = "/register"> 
+        //             <InlineButton name={"register"}/>
+        //         </Link>
+        //     </div>
+        //     }
+        // </header>
         <header>
-            {user 
-            ? <>
-                Hello, {user.username}.
-                <InlineButton name={'logout'} handleClick={logoutUser} />
-            </>
-           : <div className='btnGroup'>
+            <div className='btnGroup'>
                 <Link to = "/login"> 
                     <InlineButton name={"login"}/>
                 </Link>
@@ -23,7 +34,6 @@ export default function Header() {
                     <InlineButton name={"register"}/>
                 </Link>
             </div>
-            }
         </header>
     )
 }

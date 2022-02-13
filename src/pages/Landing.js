@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import Header from '../sections/Header';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { UserContext } from '../hooks/UserContext';
 
 export default function Landing() {
-    const { user } = useContext(UserContext);
-        if(user) {
-            <Redirect to='/home'/> 
-        }
+    // const { user } = useContext(UserContext);
+    //     if(user) {
+    //         <Navigate to='/home'/> 
+    //     }
 
     return(
         <div className="page">

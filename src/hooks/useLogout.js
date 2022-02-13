@@ -1,8 +1,8 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function useLogout() {
-    let history = useHistory();
+    let useNavigate = useNavigate();
 
     const logoutUser = async () => {
         try {
@@ -11,7 +11,7 @@ export default function useLogout() {
                 url: `auth/logout`,
             }).then(res => { 
                 console.log(res); 
-                history.push('/');
+                useNavigate.push('/');
             })
         } catch(err) {
             console.log(err);

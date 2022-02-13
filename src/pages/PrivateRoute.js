@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate, Outlet } from 'react-router-dom';
 import { UserContext } from './../hooks/UserContext';
 import Loading from './../components/Loading'; 
 
@@ -15,11 +15,7 @@ export default function PrivateRoute(props) {
           return <Loading/>
         }
 
-      if(user){
-        return ( <Route {...rest} render={(props) => (<Component {...props}/>)}/>)
-        } else {
-          return <Redirect to='/login'/> 
-        }
+      return user ? <Outlet/>:<Navigate to='/login'/>
 
 }
 
