@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Navigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 
@@ -11,15 +11,14 @@ export default function useAuth() {
   //set user
   const setUserContext = async () => {
     return await axios
-      .get("auth/me")
-      .then((res) => {
+    .get("auth/me")
+    .then((res) => {
         setUser(res.data.user);
-        navigate.push("/home");
       })
       .catch((err) => {
-        setError(err.response);
+        setError(err.response.data);
       });
-  };
+    };
 
   //register user
   const registerUser = async (data) => {
@@ -43,7 +42,8 @@ export default function useAuth() {
   //login user
   const loginUser = async (data) => {
     const { username, password } = data;
-    return axios
+    let loggedin = false;
+    await axios
       .post("auth/", {
         username,
         password,
@@ -56,10 +56,17 @@ export default function useAuth() {
           return config;
         });
         await setUserContext();
+        loggedin= true;
       })
       .catch((err) => {
-        setError(err.response.data);
+        try {
+          setError(err.response);
+        } catch (error) {
+          console.log(error);
+          setError({message:"Unexpected Error"})
+        }
       });
+      return loggedin;
   };
 
   return {

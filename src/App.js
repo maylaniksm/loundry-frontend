@@ -10,6 +10,12 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import useFindUser from "./hooks/useFindUser";
 import Default from "./Layout/Default";
+import Outlet from "./pages/Outlet";
+import Member from "./pages/Member";
+import Paket from "./pages/Paket";
+import User from "./pages/User";
+import Transaksi from "./pages/Transakasi";
+import Laporan from "./pages/Laporan";
 // import Default from "./Layout/Default";
 function App() {
   const { user, setUser, isLoading } = useFindUser();
@@ -23,8 +29,20 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route element={<Default />}>
             <Route element={<PrivateRoute />}>
-              <Route path="/home" element={<home />} />
+              <Route path="/home" element={<Home />} />
             </Route>
+            <Route element={<PrivateRoute role="kasir" />}>
+              <Route path="/member" element={<Member />} />
+              <Route path="/transaksi" element={<Transaksi />} />
+            </Route>
+            <Route element={<PrivateRoute role="admin" />}>
+              <Route path="/outlet" element={<Outlet />} />
+              <Route path="/user" element={<User />} />
+              <Route path="/paket" element={<Paket />} />
+            </Route>
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path="/laporan" element={<Laporan />} />
           </Route>
         </Routes>
       </UserContext.Provider>

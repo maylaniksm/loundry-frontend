@@ -4,7 +4,9 @@ export default function FormInput(props) {
     let fail = props.fail; 
 
     return(
-            <input type={props.type}
+            <input 
+            required
+            type={props.type}
             className={`input ${fail ? "input--fail" : null} `}
             placeholder={props.placeholder}
             name={props.name}

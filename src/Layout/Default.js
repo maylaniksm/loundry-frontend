@@ -1,17 +1,23 @@
-import React from 'react';
 import Header from './Header';
 import Navigation from './Navigation';
 import { Outlet } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
 const Default = ({ children }) => {
     return (
-    <React.Fragment>
+    <>
         <Header />
-        <div className="navigationWrapper">
+        <Container fluid>
+            <Row>
+                <Col xs={2} id="sidebar-wrapper px-0">
+                    <Navigation/>
+                </Col>
+                <Col xs={10} id="sidebar-wrapper">
+                    <Outlet />
+                </Col>
+            </Row>
             {/* <h1>Halo</h1> */}
-            <Navigation />
-            <Outlet />
-        </div>
-    </React.Fragment>
+        </Container>
+    </>
     );
 };
 export default Default;

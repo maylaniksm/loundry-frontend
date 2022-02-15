@@ -6,11 +6,10 @@ export default function useForm({ initialValues }) {
     const handleChange = event => {
         const value = event.target.value; 
         const name = event.target.name;
-
         setValues({
             ...values,
             [name]: value
-        }); 
+        });
     };
  
     return {

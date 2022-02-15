@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import InlineButton from './../components/InlineButton';
 import { UserContext } from '../hooks/UserContext';
@@ -29,9 +28,6 @@ export default function Header() {
             <div className='btnGroup'>
                 <Link to = "/login"> 
                     <InlineButton name={"login"}/>
-                </Link>
-                <Link to = "/register"> 
-                    <InlineButton name={"register"}/>
                 </Link>
             </div>
         </header>

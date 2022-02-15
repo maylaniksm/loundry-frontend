@@ -12,7 +12,7 @@ export default function Landing() {
     return(
         <div className="page">
             <Header/>
-           <h3>This is the public landing page</h3> 
+            <h1>Selamat Datang Di Aplikasi Laundry</h1>
         </div>
     )
 }
