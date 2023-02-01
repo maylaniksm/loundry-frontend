@@ -4,9 +4,13 @@ import { Form, Button, Modal, InputGroup, FormControl } from "react-bootstrap";
 import FormInput from "../components/FormInput";
 import useForm from "../hooks/useForm";
 import DataTable from "react-data-table-component";
+import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function Paket() {
   const [show, setShow] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [showTitle, setShowTitle] = useState("Buat Paket Baru");
   const [showId, setShowId] = useState("");
   const [APIData, setAPIData] = useState([]);
@@ -27,7 +31,7 @@ export default function Paket() {
       setAPIData(res.data.data_paket);
     });
     axios.get("outlet/").then(async (res) => {
-      values.id_outlet = res.data.data_outlet[0].id_outlet 
+      values.id_outlet = res.data.data_outlet[0].id_outlet;
       setAPIDataOutlet(res.data.data_outlet);
     });
   }, [refreshKey, filterText, resetPaginationToggle]);
@@ -56,17 +60,23 @@ export default function Paket() {
       name: "Aksi",
       cell: (row) => (
         <>
-          <button
-            className="btn btn-info text-white"
-            onClick={() => handleShowEdit(row)}
+        <button
+            className="btn p-1 mx-1 btn-success text-white"
+            onClick={() => handleShowDetail(row)}
           >
-            Edit
+            <InfoIcon/>
           </button>
           <button
-            className="btn btn-danger ms-3"
+            className="btn p-1 mx-1 btn-info text-white"
+            onClick={() => handleShowEdit(row)}
+          >
+            <EditIcon/>
+          </button>
+          <button
+            className="btn p-1 mx-1 btn-danger"
             onClick={() => hapus(row.id_paket)}
           >
-            Hapus
+            <DeleteForeverIcon/>
           </button>
         </>
       ),
@@ -84,6 +94,7 @@ export default function Paket() {
   const handleShow = () => {
     setShowId("");
     setShowTitle("Buat Paket Baru");
+    setDisabled(false);
     setShow(true);
   };
   const handleShowEdit = (paket) => {
@@ -92,6 +103,16 @@ export default function Paket() {
     values.harga = paket.harga;
     setShowId(paket.id_paket);
     setShowTitle("Edit Paket " + paket.nama_paket);
+    setDisabled(false);
+    setShow(true);
+  };
+  const handleShowDetail = (paket) => {
+    values.nama_paket = paket.nama_paket;
+    values.id_outlet = paket.id_outlet;
+    values.harga = paket.harga;
+    setShowId(paket.id_paket);
+    setShowTitle("Detail Paket " + paket.nama_paket);
+    setDisabled(true);
     setShow(true);
   };
   const { values, handleChange } = useForm({
@@ -123,7 +144,6 @@ export default function Paket() {
         id="search-button"
         onClick={onClear}
         variant="outline-secondary"
-        id="button-addon2"
       >
         Clear
       </Button>
@@ -178,6 +198,7 @@ export default function Paket() {
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">
+          <h5>Paket</h5>
             <div className="d-flex justify-content-between  align-items-end w-100">
               <button className="btn btn-primary" onClick={showTambah}>
                 Tambah
@@ -212,6 +233,7 @@ export default function Paket() {
                   <Form.Group className="mb-3" controlId="formBasicNama">
                     <Form.Label>Nama</Form.Label>
                     <FormInput
+                    disabled={disabled}
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Nama"}
@@ -226,6 +248,7 @@ export default function Paket() {
                   <Form.Group className="mb-3" controlId="formBasicNama">
                     <Form.Label>Jenis</Form.Label>
                     <FormInput
+                    disabled={disabled}
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Jenis"}
@@ -240,14 +263,18 @@ export default function Paket() {
                   <Form.Group className="mb-3" controlId="formBasicAlamat">
                     <Form.Label>Outlet</Form.Label>
                     <select
+                    disabled={disabled}
                       className="form-control"
                       name={"id_outlet"}
                       value={values.id_outlet}
                       onChange={handleChange}
                     >
-                      {APIDataOutlet.map(x=>{
-                        
-                        return (<option key={x.id_outlet} value={x.id_outlet}>{x.nama}</option>)
+                      {APIDataOutlet.map((x) => {
+                        return (
+                          <option key={x.id_outlet} value={x.id_outlet}>
+                            {x.nama}
+                          </option>
+                        );
                       })}
                     </select>
                     <Form.Text className="text-muted">
@@ -257,6 +284,7 @@ export default function Paket() {
                   <Form.Group className="mb-3" controlId="formBasicTelepon">
                     <Form.Label>Harga</Form.Label>
                     <FormInput
+                    disabled={disabled}
                       className="form-control"
                       type={"number"}
                       placeholder={"Masukan Harga"}
@@ -268,7 +296,7 @@ export default function Paket() {
                       Masukan Harga Paket.
                     </Form.Text>
                   </Form.Group>
-                  <Button variant="primary" className="ms-auto" type="submit">
+                  <Button variant="primary" disabled={disabled} className="ms-auto" type="submit">
                     Submit
                   </Button>
                 </Form>

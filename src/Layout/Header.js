@@ -20,13 +20,13 @@ const Header = () => {
       {redirect}
       <Container fluid className="mx-0">
         <Navbar.Brand href="#home">
-        <img
+        {/* <img
           alt=""
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png"
           width="30"
           height="30"
           className="d-inline-block align-top"
-        />{' '}
+        />{' '} */}
           Laundry Apps
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

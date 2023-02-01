@@ -2,6 +2,6 @@ import React from 'react';
 
 export default function Prompt(props){
     return(
-        <h5 className="prompt">{props.prompt}</h5>
+        <p className="d-block" style={{textDecoration:'none'}}>{props.prompt}</p>
     )
 }

@@ -4,9 +4,13 @@ import { Form, Button, Modal, InputGroup, FormControl } from "react-bootstrap";
 import FormInput from "../components/FormInput";
 import useForm from "../hooks/useForm";
 import DataTable from "react-data-table-component";
+import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function Member() {
   const [show, setShow] = useState(false);
+  const [disabled, setDisabled] = useState(false); //disable buat matiin form yang tidak dipakai
   const [showTitle, setShowTitle] = useState("Buat Member Baru");
   const [showId, setShowId] = useState("");
   const [APIData, setAPIData] = useState([]);
@@ -49,16 +53,22 @@ export default function Member() {
       cell: (row) => (
         <>
           <button
-            className="btn btn-info text-white"
-            onClick={() => handleShowEdit(row)}
+            className="btn p-1 mx-1 btn-success text-white"
+            onClick={() => handleShowDetail(row)}
           >
-            Edit
+            <InfoIcon/>
           </button>
           <button
-            className="btn btn-danger ms-3"
+            className="btn p-1 mx-1 btn-info text-white"
+            onClick={() => handleShowEdit(row)}
+          >
+            <EditIcon/>
+          </button>
+          <button
+            className="btn p-1 mx-1 btn-danger"
             onClick={() => hapus(row.id_member)}
           >
-            Hapus
+            <DeleteForeverIcon/>
           </button>
         </>
       ),
@@ -76,6 +86,7 @@ export default function Member() {
   const handleShow = () => {
     setShowId("");
     setShowTitle("Buat Member Baru");
+    setDisabled(false);
     setShow(true);
   };
   const handleShowEdit = (member) => {
@@ -85,6 +96,17 @@ export default function Member() {
     values.jenis_kelamin = member.jenis_kelamin;
     setShowId(member.id_member);
     setShowTitle("Edit Member " + member.nama);
+    setDisabled(false);
+    setShow(true);
+  };
+  const handleShowDetail = (member) => {
+    values.nama = member.nama;
+    values.alamat = member.alamat;
+    values.tlp = member.tlp;
+    values.jenis_kelamin = member.jenis_kelamin;
+    setShowId(member.id_member);
+    setShowTitle("Detail Member " + member.nama);
+    setDisabled(true); 
     setShow(true);
   };
   const { values, handleChange } = useForm({
@@ -116,7 +138,6 @@ export default function Member() {
         id="search-button"
         onClick={onClear}
         variant="outline-secondary"
-        id="button-addon2"
       >
         Clear
       </Button>
@@ -167,16 +188,19 @@ export default function Member() {
     handleShow();
   };
   return (
+
     <div className="page px-0">
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">
+          <h5>Member</h5>
             <div className="d-flex justify-content-between  align-items-end w-100">
               <button className="btn btn-primary" onClick={showTambah}>
                 Tambah
               </button>
               <InputGroup className="w-50">
                 <FormControl
+                  disabled={disabled}
                   id="search"
                   type="text"
                   placeholder="Cari Data Berdasarkan Nama"
@@ -206,6 +230,7 @@ export default function Member() {
                     <Form.Label>Nama</Form.Label>
                     <FormInput
                       className="form-control"
+                      disabled={disabled}
                       type={"text"}
                       placeholder={"Masukan Nama"}
                       name={"nama"}
@@ -220,6 +245,7 @@ export default function Member() {
                     <Form.Label>Alamat</Form.Label>
                     <FormInput
                       className="form-control"
+                      disabled={disabled}
                       type={"text"}
                       placeholder={"Masukan Alamat"}
                       name={"alamat"}
@@ -236,6 +262,7 @@ export default function Member() {
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Jenis Kelamin"}
+                      disabled={disabled}
                       name={"jenis_kelamin"}
                       value={values.jenis_kelamin}
                       onChange={handleChange}
@@ -253,6 +280,7 @@ export default function Member() {
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Telepon"}
+                      disabled={disabled}
                       name={"tlp"}
                       value={values.tlp}
                       handleChange={handleChange}
@@ -261,7 +289,7 @@ export default function Member() {
                       Masukan Telepon Member.
                     </Form.Text>
                   </Form.Group>
-                  <Button variant="primary" className="ms-auto" type="submit">
+                  <Button disabled={disabled} variant="primary" className="ms-auto" type="submit">
                     Submit
                   </Button>
                 </Form>

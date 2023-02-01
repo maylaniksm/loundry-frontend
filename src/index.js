@@ -1,6 +1,9 @@
+//index = untuk mengambil semua kebutuhannya dulu
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './App_2.css';
+import './App_2.scss';
 import App from './App';
 import axios from 'axios';
 

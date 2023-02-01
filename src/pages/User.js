@@ -4,10 +4,14 @@ import { Form, Button, Modal, InputGroup, FormControl } from "react-bootstrap";
 import FormInput from "../components/FormInput";
 import useForm from "../hooks/useForm";
 import DataTable from "react-data-table-component";
+import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function User() {
   const [show, setShow] = useState(false);
   const [showTitle, setShowTitle] = useState("Buat User Baru");
+  const [disabled, setDisabled] = useState(false);
   const [showId, setShowId] = useState("");
   const [APIData, setAPIData] = useState([]);
   const [APIDataOutlet, setAPIDataOutlet] = useState([]);
@@ -53,17 +57,23 @@ export default function User() {
       name: "Aksi",
       cell: (row) => (
         <>
-          <button
-            className="btn btn-info text-white"
-            onClick={() => handleShowEdit(row)}
+        <button
+            className="btn p-1 mx-1 btn-success text-white"
+            onClick={() => handleShowDetail(row)}
           >
-            Edit
+            <InfoIcon/>
           </button>
           <button
-            className="btn btn-danger ms-3"
+            className="btn p-1 mx-1 btn-info text-white"
+            onClick={() => handleShowEdit(row)}
+          >
+            <EditIcon/>
+          </button>
+          <button
+            className="btn p-1 mx-1 btn-danger "
             onClick={() => hapus(row.id_user)}
           >
-            Hapus
+            <DeleteForeverIcon/>
           </button>
         </>
       ),
@@ -81,6 +91,7 @@ export default function User() {
   const handleShow = () => {
     setShowId("");
     setShowTitle("Buat User Baru");
+    setDisabled(false);
     setShow(true);
   };
   const handleShowEdit = (user) => {
@@ -90,7 +101,19 @@ export default function User() {
     values.password = '';
     setShowId(user.id_user);
     setShowTitle("Edit User " + user.nama);
+    setDisabled(false);
     setShow(true);
+  };
+  const handleShowDetail = (user) => {
+    values.nama = user.nama;
+    values.id_outlet = user.id_outlet;
+    values.username = user.username;
+    values.password = '';
+    setShowId(user.id_user);
+    setShowTitle("Detail User " + user.nama);
+    setDisabled(true);
+    setShow(true);
+    
   };
   const { values, handleChange } = useForm({
     initialValues: {
@@ -122,7 +145,6 @@ export default function User() {
         id="search-button"
         onClick={onClear}
         variant="outline-secondary"
-        id="button-addon2"
       >
         Clear
       </Button>
@@ -177,6 +199,7 @@ export default function User() {
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">
+          <h5>User</h5>
             <div className="d-flex justify-content-between  align-items-end w-100">
               <button className="btn btn-primary" onClick={showTambah}>
                 Tambah
@@ -211,6 +234,7 @@ export default function User() {
                   <Form.Group className="mb-3" controlId="formBasicNama">
                     <Form.Label>Nama</Form.Label>
                     <FormInput
+                    disabled={disabled}
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Nama"}
@@ -225,6 +249,7 @@ export default function User() {
                   <Form.Group className="mb-3" controlId="formBasicOutlet">
                     <Form.Label>Outlet</Form.Label>
                     <select
+                    disabled={disabled}
                       className="form-control"
                       name={"id_outlet"}
                       value={values.id_outlet}
@@ -242,14 +267,15 @@ export default function User() {
                   <Form.Group className="mb-3" controlId="formBasicOutlet">
                     <Form.Label>Role</Form.Label>
                     <select
+                    disabled={disabled}
                       className="form-control"
-                      name={"id_outlet"}
+                      name={"role"}
                       value={values.role}
                       onChange={handleChange}
                     >
-                      <option>admin</option>
-                      <option>owner</option>
-                      <option>kasir</option>
+                      <option key="admin" value="admin">admin</option>
+                      <option key="owner" value="owner">owner</option>
+                      <option key="kasir" value="kasir">kasir</option>
                     </select>
                     <Form.Text className="text-muted">
                       Masukan Role User.
@@ -258,6 +284,7 @@ export default function User() {
                   <Form.Group className="mb-3" controlId="formBasicUsername">
                     <Form.Label>Username</Form.Label>
                     <FormInput
+                    disabled={disabled}
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Username"}
@@ -272,6 +299,7 @@ export default function User() {
                   <Form.Group className="mb-3" controlId="formBasicOutlet">
                     <Form.Label>Password</Form.Label>
                     <FormInput
+                    disabled={disabled}
                       className="form-control"
                       type={"password"}
                       placeholder={"Masukan Password"}
@@ -283,7 +311,7 @@ export default function User() {
                       Masukan Password User.
                     </Form.Text>
                   </Form.Group>
-                  <Button variant="primary" className="ms-auto" type="submit">
+                  <Button disabled={disabled}  variant="primary" className="ms-auto" type="submit">
                     Submit
                   </Button>
                 </Form>

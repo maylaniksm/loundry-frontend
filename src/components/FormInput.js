@@ -5,7 +5,7 @@ export default function FormInput(props) {
 
     return(
             <input 
-            required
+            required={props.isreq || true}
             type={props.type}
             className={`input ${fail ? "input--fail" : null} `}
             placeholder={props.placeholder}
@@ -13,6 +13,7 @@ export default function FormInput(props) {
             value={props.value}
             onChange={props.handleChange}
             onKeyDown={props.handleKeyDown}
+            disabled={props.disabled || false}
             />
     )
 }

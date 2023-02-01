@@ -8,7 +8,7 @@ const Default = ({ children }) => {
         <Header />
         <Container fluid>
             <Row>
-                <Col xs={2} id="sidebar-wrapper px-0">
+                <Col xs={2} className="px-0" id=" px-0">
                     <Navigation/>
                 </Col>
                 <Col xs={10} id="sidebar-wrapper">

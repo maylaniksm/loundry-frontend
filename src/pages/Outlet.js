@@ -4,9 +4,13 @@ import { Form, Button, Modal, InputGroup, FormControl } from "react-bootstrap";
 import FormInput from "../components/FormInput";
 import useForm from "../hooks/useForm";
 import DataTable from "react-data-table-component";
+import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function Outlet() {
   const [show, setShow] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [showTitle, setShowTitle] = useState('Buat Outlet Baru');
   const [showId, setShowId] = useState('');
   const [APIData, setAPIData] = useState([]);
@@ -43,8 +47,9 @@ export default function Outlet() {
       name: "Aksi",
       cell: (row) => (
         <>
-          <button className="btn btn-info text-white" onClick={()=>handleShowEdit(row)}>Edit</button>
-          <button className="btn btn-danger ms-3" onClick={()=>hapus(row.id_outlet)}>Hapus</button>
+          <button className="btn mx-1 p-1 btn-success text-white" onClick={()=>handleShowDetail(row)}><InfoIcon/></button>
+          <button className="btn mx-1 p-1 btn-info text-white" onClick={()=>handleShowEdit(row)}><EditIcon/></button>
+          <button className="btn mx-1 p-1 btn-danger" onClick={()=>hapus(row.id_outlet)}><DeleteForeverIcon/></button>
         </>
       ),
       sortable: true,
@@ -61,6 +66,7 @@ export default function Outlet() {
   const handleShow = () => {
     setShowId('')
     setShowTitle("Buat Outlet Baru")
+    setDisabled(false)
     setShow(true)
   };
   const handleShowEdit = (outlet) => {
@@ -69,6 +75,16 @@ export default function Outlet() {
     values.tlp = outlet.tlp
     setShowId(outlet.id_outlet)
     setShowTitle("Edit Outlet "+outlet.nama)
+    setDisabled(false)
+    setShow(true)
+  };
+  const handleShowDetail = (outlet) => {
+    values.nama = outlet.nama
+    values.alamat = outlet.alamat
+    values.tlp = outlet.tlp
+    setShowId(outlet.id_outlet)
+    setShowTitle("Detail Outlet "+outlet.nama)
+    setDisabled(true)
     setShow(true)
   };
   const { values, handleChange } = useForm({
@@ -99,7 +115,6 @@ export default function Outlet() {
         id="search-button"
         onClick={onClear}
         variant="outline-secondary"
-        id="button-addon2"
       >
         Clear
       </Button>
@@ -154,6 +169,7 @@ export default function Outlet() {
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">
+          <h5>Outlet</h5>
             <div className="d-flex justify-content-between  align-items-end w-100">
               <button className="btn btn-primary" onClick={showTambah}>
                 Tambah
@@ -188,7 +204,7 @@ export default function Outlet() {
                   <Form.Group className="mb-3" controlId="formBasicNama">
                     <Form.Label>Nama</Form.Label>
                     <FormInput
-                      
+                      disabled={disabled}
                       className="form-control"
                       type={"text"}
                       placeholder={"Masukan Nama"}
@@ -203,6 +219,7 @@ export default function Outlet() {
                   <Form.Group className="mb-3" controlId="formBasicAlamat">
                     <Form.Label>Alamat</Form.Label>
                     <FormInput
+                      disabled={disabled}
                     
                       className="form-control"
                       type={"text"}
@@ -218,6 +235,7 @@ export default function Outlet() {
                   <Form.Group className="mb-3" controlId="formBasicTelepon">
                     <Form.Label>Telepon</Form.Label>
                     <FormInput
+                      disabled={disabled}
                     
                       className="form-control"
                       type={"text"}
@@ -230,7 +248,8 @@ export default function Outlet() {
                       Masukan Telepon Outlet.
                     </Form.Text>
                   </Form.Group>
-                  <Button variant="primary" className="ms-auto" type="submit">
+                      
+                  <Button disabled={disabled} variant="primary" className="ms-auto" type="submit">
                     Submit
                   </Button>
                 </Form>

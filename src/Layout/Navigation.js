@@ -24,12 +24,12 @@ const Navigation = () => {
       if (role == "kasir" || role == "admin") {
         setNavData(
           <>
-            <Nav.Item>
+            <Nav.Item className="pt-4">
               <Nav.Link href="/member">
                 <RememberMeOutlinedIcon /> Member
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item className="pt-4">
               <Nav.Link href="/transaksi">
                 <LocalAtmOutlinedIcon /> Transaksi
               </Nav.Link>
@@ -44,17 +44,17 @@ const Navigation = () => {
     if(role=="admin"){
       return (
         <>
-          <Nav.Item>
+          <Nav.Item className="pt-4">
             <Nav.Link href="/user">
               <PersonOutlineOutlinedIcon /> Pengguna
             </Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item className="pt-4">
             <Nav.Link href="/outlet">
               <StoreOutlinedIcon /> Outlet
             </Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item className="pt-4">
             <Nav.Link href="/paket">
               <ListAltOutlinedIcon /> Paket
             </Nav.Link>
@@ -66,17 +66,17 @@ const Navigation = () => {
   return (
     <>
       <Nav
-        className="col-md-12 d-none d-md-block bg-white sidebar h-100"
+        className="col-md-12 d-none d-md-block bg-dark sidebar h-100"
         activeKey="/home"
       >
         <div className="sidebar-sticky"></div>
-        <Nav.Item>
+        <Nav.Item className="pt-4">
           <Nav.Link href="/home">
-            <HomeIcon /> Dashboard
+            <HomeIcon /> Beranda
           </Nav.Link>
         </Nav.Item>
         {NavData}
-        <Nav.Item>
+        <Nav.Item className="pt-4">
           <Nav.Link href="/laporan">
             <SummarizeOutlinedIcon /> Laporan
           </Nav.Link>

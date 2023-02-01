@@ -1,5 +1,4 @@
-import "./App.scss";
-import "./App.css";
+//app js = isinya router
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserContext } from "./hooks/UserContext";
 import PrivateRoute from "./pages/PrivateRoute";
@@ -24,10 +23,10 @@ function App() {
     <BrowserRouter>
       <UserContext.Provider value={{ user, setUser, isLoading }}>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route element={<Default />}>
+         <Route element={<Default />}>  {/* default = memanggil navbar dan sidebar */}
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<Home />} />
             </Route>
@@ -41,7 +40,7 @@ function App() {
               <Route path="/paket" element={<Paket />} />
             </Route>
           </Route>
-          <Route element={<PrivateRoute />}>
+          <Route element={<PrivateRoute />}> {/* //owner */}
             <Route path="/laporan" element={<Laporan />} />
           </Route>
         </Routes>

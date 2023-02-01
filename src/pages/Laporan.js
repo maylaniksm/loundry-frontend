@@ -66,12 +66,6 @@ export default function Transaksi() {
       minWidth: "175px",
     },
     {
-      name: "Paket",
-      selector: (row) => row.tb_paket.nama_paket,
-      sortable: true,
-      minWidth: "175px",
-    },
-    {
       name: "Outelt",
       selector: (row) => row.tb_outlet.nama,
       sortable: true,
@@ -93,24 +87,13 @@ export default function Transaksi() {
       sortable: true,
       minWidth: "175px",
     },
-    {
-      name: "Biaya Tambahan",
-      selector: (row) => row.biaya_tambahan,
-      sortable: true,
-      minWidth: "175px",
-    },
-    {
-      name: "Diskon",
-      selector: (row) => row.diskon,
-      sortable: true,
-      minWidth: "175px",
-    },
-    {
-      name: "Pajak",
-      selector: (row) => row.pajak,
-      sortable: true,
-      minWidth: "175px",
-    },
+    // {
+    //   name: "Biaya Tambahan",
+    //   selector: (row) => row.biaya_tambahan,
+    //   sortable: true,
+    //   minWidth: "175px",
+    // },
+    
     {
       name: "Tanggal",
       selector: (row) => moment(row.tgl).format("LLLL"),
@@ -167,7 +150,6 @@ export default function Transaksi() {
     initialValues: {
       kode_invoice: "",
       id_outlet: "0",
-      id_paket: "0",
       id_member: "0",
       total: "",
       kode_invoice: "",
@@ -203,7 +185,6 @@ export default function Transaksi() {
         id="search-button"
         onClick={onClear}
         variant="outline-secondary"
-        id="button-addon2"
       >
         Clear
       </Button>
@@ -320,6 +301,7 @@ export default function Transaksi() {
   return (
     <div className="page px-0">
       <div className="row">
+      <button className="btn btn-danger"><center><h3>LAPORAN KESELURUHAN</h3></center></button>
         <div className="col-12">
           <DataTable
             columns={columns}
@@ -330,7 +312,7 @@ export default function Transaksi() {
             expandableRowsComponent={ExpandedComponent}
           />
         </div>
-        <button onClick={() => window.print()}>Print</button>
+        <button className="btn-primary" onClick={() => window.print()}>Print</button>
       </div>
     </div>
   );
